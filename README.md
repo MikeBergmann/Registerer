@@ -6,7 +6,7 @@ Registerer (c) 2013 Mike Bergmann, Bones AG
 <http://blog.bones-embedded.ch>
 
 Registerer is a Hex/Bin/Dec converter aiming embedded developers which have to deal with hardware 
-registers a lot. It's developed using the Qt Framework. Qt is licensed under the LGPL, please see lgpl-2.1.txt in the same directory.
+registers a lot. It's developed using the Qt Framework.
 
 License:
 
