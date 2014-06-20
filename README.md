@@ -1,7 +1,7 @@
 Registerer
 =======
 
-**Registerer (c) 2013 Mike Bergmann, Bones AG**
+**Registerer (c) 2013 Mike Bergmann**
 
 <http://blog.bones-embedded.ch>
 
