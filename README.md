@@ -30,14 +30,14 @@ You may show a bit position pointer by entering the position into the pos field.
 
 * Convert binary 10101010 to hex:
   
-*Enter 0b10101010 into 'Number' and press CTRL-d twice.*
+  *Enter 0b10101010 into 'Number' and press CTRL-d twice.*
 
 * Create a hex number with bit 31 is one:
 
-*Enter 0x0 into 'Number' to indicate you want a hex.*
-*Enter 31 into 'Pos' and press CTRL-t (or the t button).*
+  *Enter 0x0 into 'Number' to indicate you want a hex.*
+  *Enter 31 into 'Pos' and press CTRL-t (or the t button).*
 
 * Create a binary number with bit 15 is one:
 
-*Enter 0b0 into 'Number' to indicate you want a binary.*
-*Enter 15 into 'Pos' and press CTRL-t (or the t button).*
+  *Enter 0b0 into 'Number' to indicate you want a binary.*
+  *Enter 15 into 'Pos' and press CTRL-t (or the t button).*
