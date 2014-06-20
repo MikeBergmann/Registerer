@@ -5,23 +5,18 @@ Registerer (c) 2013 Mike Bergmann, Bones AG
 
 <http://blog.bones-embedded.ch>
 
+Binary download:  [ ![Download](https://api.bintray.com/packages/mikebergmann/generic/Registerer/images/download.png) ](https://bintray.com/mikebergmann/generic/Registerer/_latestVersion)
+
 Registerer is a Hex/Bin/Dec converter aiming embedded developers which have to deal with hardware 
 registers a lot. It's developed using the Qt Framework.
 
 License:
 
-  Registerer is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
-  (at your option) any later version.
+Registerer is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 
-  Registerer is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+Registerer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with Registerer.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with Registerer. If not, see <http://www.gnu.org/licenses/>.
 
 
 Usage:
@@ -35,15 +30,16 @@ Usage:
 
 Examples:
 
-  Convert binary 10101010 to hex:
-  Enter 0b10101010 into 'Number' and press CTRL-d twice.
+* Convert binary 10101010 to hex:
+  
+*Enter 0b10101010 into 'Number' and press CTRL-d twice.*
 
-  Create a hex number with bit 31 is one:
+* Create a hex number with bit 31 is one:
 
-  Enter 0x0 into 'Number' to indicate you want a hex.
-  Enter 31 into 'Pos' and press CTRL-t (or the t button).
+*Enter 0x0 into 'Number' to indicate you want a hex.*
+*Enter 31 into 'Pos' and press CTRL-t (or the t button).*
 
-  Create a binary number with bit 15 is one:
+* Create a binary number with bit 15 is one:
 
-  Enter 0b0 into 'Number' to indicate you want a binary.
-  Enter 15 into 'Pos' and press CTRL-t (or the t button).
+*Enter 0b0 into 'Number' to indicate you want a binary.*
+*Enter 15 into 'Pos' and press CTRL-t (or the t button).*
