@@ -3,7 +3,7 @@ Registerer
 
 **Registerer (c) 2013 Mike Bergmann**
 
-<http://blog.bones-embedded.ch>
+<http://blog.mdb977.de>
 
 Binary download:  [ ![Download](https://api.bintray.com/packages/mikebergmann/generic/Registerer/images/download.png) ](https://bintray.com/mikebergmann/generic/Registerer/_latestVersion)
 
