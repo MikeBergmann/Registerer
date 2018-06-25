@@ -1,9 +1,11 @@
 Registerer
 =======
 
-Registerer (c) 2013 Mike Bergmann, Bones AG
+Registerer (c) 2013 Mike Bergmann
 
-<http://blog.bones-embedded.ch>
+<http://blog.mdb977.de>
+
+Binary download:  https://bintray.com/mikebergmann/generic/Registerer/_latestVersion
 
 Registerer is a Hex/Bin/Dec converter aiming embedded developers which have to deal with hardware 
 registers a lot. It's developed using the Qt Framework.
@@ -27,7 +29,8 @@ License:
 Usage:
   (is pretty simple)
 
-  Enter a number in the number field and press enter. Prefix the number with 0b in case you enter a binary or 0x if you enter a hex number.
+  Enter a number in the number field and press enter. 
+  Prefix the number with 0b in case you enter a binary or 0x if you enter a hex number.
   CTRL-d (or d[isplay] button) will toggle through dec-hex-bin.
 	
   You may show a bit position pointer by entering the position into the pos field.
