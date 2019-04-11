@@ -3,12 +3,14 @@ Registerer
 
 **Registerer (c) 2013 Mike Bergmann**
 
-<https://blog.mdb977.de>
+<https://blog.mdb977.de/easily-counting-bits-for-registers/>
 
 Binary download:  [ ![Download](https://api.bintray.com/packages/mikebergmann/generic/Registerer/images/download.png) ](https://bintray.com/mikebergmann/generic/Registerer/_latestVersion)
 
 Registerer is a Hex/Bin/Dec converter aiming embedded developers which have to deal with hardware 
 registers a lot. It's developed using the Qt Framework.
+
+![Screenshot](http://blog.mdb977.de/wp-content/uploads/2013/03/Registerer.png)
 
 **License:**
 
