@@ -16,3 +16,8 @@ add_executable(Registerer WIN32 mainwindow.ui mainwindow.cpp main.cpp)
 
 # Use the Widgets module from Qt 5.
 target_link_libraries(Registerer Qt5::Widgets)
+
+install(
+  TARGETS Registerer
+  RUNTIME DESTINATION bin
+)
