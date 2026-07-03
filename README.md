@@ -5,12 +5,10 @@ Registerer
 
 <https://blog.mdb977.de/easily-counting-bits-for-registers/>
 
-Binary download:  [ ![Download](https://api.bintray.com/packages/mikebergmann/generic/Registerer/images/download.png) ](https://bintray.com/mikebergmann/generic/Registerer/_latestVersion)
-
-Registerer is a Hex/Bin/Dec converter aiming embedded developers which have to deal with hardware 
+Registerer is a Hex/Bin/Dec converter aimed at embedded developers who have to deal with hardware 
 registers a lot. It's developed using the Qt Framework.
 
-![Screenshot](http://blog.mdb977.de/wp-content/uploads/2013/03/Registerer.png)
+![Screenshot](./registerer.png)
 
 **License:**
 
@@ -24,9 +22,9 @@ You should have received a copy of the GNU General Public License along with Reg
 **Usage:**
 (is pretty simple)
 
-Enter a number in the number field and press enter. Prefix the number with 0b in case you enter a binary or 0x if you enter a hex number. CTRL-d (or d[isplay] button) will toggle through dec-hex-bin.
+Enter a number in the number field and press Enter. Prefix the number with 0b in case you enter a binary, or 0x if you enter a hex number. CTRL-d (or the d[isplay] button) will toggle through dec-hex-bin.
 	
-You may show a bit position pointer by entering the position into the pos field. CTRL-t (or the t[oggle] button) will toggle the bit at the position pointed by 'Pos'.
+You may show a bit-position pointer by entering the position in the pos field. CTRL-t (or the t[oggle] button) will toggle the bit at the position pointed by 'Pos'.
 
 **Examples:**
 
@@ -34,12 +32,12 @@ You may show a bit position pointer by entering the position into the pos field.
   
   *Enter 0b10101010 into 'Number' and press CTRL-d twice.*
 
-* Create a hex number with bit 31 is one:
+* Create a hex number with bit 31 set to one:
 
   *Enter 0x0 into 'Number' to indicate you want a hex.*
   *Enter 31 into 'Pos' and press CTRL-t (or the t button).*
 
-* Create a binary number with bit 15 is one:
+* Create a binary number with bit 15 set to one:
 
   *Enter 0b0 into 'Number' to indicate you want a binary.*
   *Enter 15 into 'Pos' and press CTRL-t (or the t button).*
