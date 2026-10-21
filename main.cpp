@@ -1,5 +1,5 @@
 /*
-  Copyright 2013 Mike Bergmann, Bones AG
+  Copyright 2013-2026 Mike Bergmann
 
   This file is part of Registerer.
 

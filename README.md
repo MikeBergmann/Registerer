@@ -10,6 +10,12 @@ registers a lot. It's developed using the Qt Framework.
 
 ![Screenshot](./registerer.png)
 
+**Build:**
+
+Needs Qt 6.3 or newer and a C++20 compiler.
+
+    cmake -B build && cmake --build build && ctest --test-dir build
+
 **License:**
 
 Registerer is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.

@@ -1,5 +1,5 @@
 /*
-  Copyright 2013 Mike Bergmann, Bones AG
+  Copyright 2013-2026 Mike Bergmann
 
   This file is part of Registerer.
 
@@ -18,157 +18,92 @@
 */
 
 #include "mainwindow.h"
+
+#include "bitformat.h"
 #include "ui_mainwindow.h"
-#include <QMessageBox>
-#include <qmath.h>
 
-MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  ui(new Ui::MainWindow)
+#include <QEvent>
+#include <QFontDatabase>
+#include <QLabel>
+
+namespace {
+
+QString toQt(const std::string &s)
 {
-  ui->setupUi(this);
-  ui->lVersion->setText(tr("Version") + " " + __DATE__ + " " + __TIME__);
-  ui->lLink->setOpenExternalLinks(true);
+    return QString::fromStdString(s);
 }
 
-MainWindow::~MainWindow()
+} // namespace
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(std::make_unique<Ui::MainWindow>())
 {
-  delete ui;
+    ui->setupUi(this);
+    ui->lVersion->setText(tr("Version") + " " __DATE__ " " __TIME__);
+    ui->lLink->setOpenExternalLinks(true);
+
+    // The rows only line up under a fixed-width font, and the "Courier New" of
+    // the .ui file is not installed everywhere.
+    const QFont mono = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    for (QLabel *row : { ui->lBinary, ui->lPos, ui->lHex, ui->lDec })
+        row->setFont(mono);
+
+    refresh();
 }
+
+MainWindow::~MainWindow() = default;
 
 void MainWindow::changeEvent(QEvent *e)
 {
-  QMainWindow::changeEvent(e);
-  switch (e->type()) {
-  case QEvent::LanguageChange:
-    ui->retranslateUi(this);
-    break;
-  default:
-    break;
-  }
+    QMainWindow::changeEvent(e);
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+}
+
+void MainWindow::refresh()
+{
+    const auto value = registerer::parse(ui->lineEdit->text().toStdString());
+    const int bit = ui->spinBox->value();
+
+    if (!value) {
+        for (QLabel *row : { ui->lBinary, ui->lPos, ui->lHex, ui->lDec, ui->lBitAsHex })
+            row->clear();
+        return;
+    }
+
+    ui->lBitAsHex->setText(
+            toQt(registerer::format({ .number = registerer::mask(bit), .base = value->base })));
+
+    const registerer::Rows rows = registerer::layout(value->number, bit);
+    ui->lBinary->setText(toQt(rows.bin));
+    ui->lPos->setText(toQt(rows.pos));
+    ui->lHex->setText(toQt(rows.hex));
+    ui->lDec->setText(toQt(rows.dec));
 }
 
 void MainWindow::on_lineEdit_editingFinished()
 {
-  bool ok;
-  unsigned long long number;
-
-  if(ui->lineEdit->text().startsWith("0b")) {
-    number = ui->lineEdit->text().right(ui->lineEdit->text().length()-2).toULongLong(&ok, 2);
-    ui->lBitAsHex->setText(QString("0b")+QString::number((unsigned long long)qPow(2,ui->spinBox->value()),2));
-  } else if(ui->lineEdit->text().startsWith("0x")) {
-    number = ui->lineEdit->text().right(ui->lineEdit->text().length()-2).toULongLong(&ok, 16);
-    ui->lBitAsHex->setText(QString("0x")+QString::number((unsigned long long)qPow(2,ui->spinBox->value()),16));
-  } else {
-    number = ui->lineEdit->text().toULongLong(&ok, 10);
-    ui->lBitAsHex->setText(QString::number((unsigned long long)qPow(2,ui->spinBox->value())));
-  }
-
-  ui->lBinary->setText("");
-  ui->lPos->setText("");
-  ui->lHex->setText("");
-
-  QString bin = QString().setNum(number,  2);
-  QString hex = QString().setNum(number, 16);
-  QString zero("00000");
-
-  if(bin.length()%4)
-    bin.insert(0,zero.data(),4-bin.length()%4);
-
-  QString pos;
-  pos.fill(' ',bin.length());
-
-  if(ui->spinBox->value() < bin.length())
-    pos[pos.length() - ui->spinBox->value() - 1] = '^';
-
-  for(int i=0;i<bin.length();++i) {
-    ui->lBinary->setText(ui->lBinary->text()+bin.at(i));
-    ui->lPos->setText(ui->lPos->text()+pos.at(i));
-    if((i+1)%4==0) {
-      ui->lHex->setText(ui->lHex->text()+hex.at((i-3)/4));
-    } else {
-      ui->lHex->setText(ui->lHex->text()+" ");
-    }
-
-    if((i+1)%4==0) {
-      ui->lBinary->setText(ui->lBinary->text()+QString(" "));
-      ui->lPos->setText(ui->lPos->text()+QString(" "));
-      ui->lHex->setText(ui->lHex->text()+QString(" "));
-    }
-  }
-
-  QString dec;
-  dec.fill(' ',ui->lBinary->text().length()-QString().setNum(number, 10).length()-1);
-  dec.append(QString().setNum(number, 10));
-
-  ui->lDec->setText(dec);
-
+    refresh();
 }
 
 void MainWindow::on_spinBox_valueChanged(int)
 {
-  on_lineEdit_editingFinished();
+    refresh();
 }
 
 void MainWindow::on_tbToggle_clicked()
 {
-  QString tmp = ui->lBinary->text().remove(" ");
-
-  if(ui->spinBox->value() >= tmp.length()) {
-    tmp.fill('0',ui->spinBox->value()-tmp.length()+1);
-    tmp.append(ui->lBinary->text().remove(" "));
-  }
-
-  if(ui->spinBox->value() < tmp.length()) {
-
-    if(tmp[tmp.length() - 1 - ui->spinBox->value()] == QChar('0'))
-      tmp[tmp.length() - 1 - ui->spinBox->value()] = QChar('1');
-    else
-      tmp[tmp.length() - 1 - ui->spinBox->value()] = QChar('0');
-
-    bool ok;
-    unsigned long long num = tmp.toULongLong(&ok,2);
-    if(ok) {
-      if(ui->lineEdit->text().startsWith("0b")) {
-        ui->lineEdit->setText(QString("0b")+QString::number(num,2));
-      } else if(ui->lineEdit->text().startsWith("0x")) {
-        ui->lineEdit->setText(QString("0x")+QString::number(num,16));
-      } else {
-        ui->lineEdit->setText(QString::number(num));
-      }
-      on_lineEdit_editingFinished();
-    }
-  }
+    if (const auto v = registerer::parse(ui->lineEdit->text().toStdString()))
+        ui->lineEdit->setText(toQt(
+                registerer::format({ .number = registerer::toggle(v->number, ui->spinBox->value()),
+                                     .base = v->base })));
+    refresh();
 }
 
 void MainWindow::on_tbDisplay_clicked()
 {
-  unsigned long long number;
-  bool ok;
-
-  if(ui->lineEdit->text().startsWith("0b")) {
-    number = ui->lineEdit->text().right(ui->lineEdit->text().length()-2).toULongLong(&ok, 2);
-  } else if(ui->lineEdit->text().startsWith("0x")) {
-    number = ui->lineEdit->text().right(ui->lineEdit->text().length()-2).toULongLong(&ok, 16);
-  } else {
-    number = ui->lineEdit->text().toULongLong(&ok, 10);
-  }
-
-  if(ui->lineEdit->text().startsWith("0b")) {
-    ui->lineEdit->setText(QString::number(number, 10));
-  } else if(ui->lineEdit->text().startsWith("0x")) {
-    ui->lineEdit->setText(QString("0b")+QString::number(number,2));
-  } else {
-    ui->lineEdit->setText(QString("0x")+QString::number(number,16));
-  }
-
-  if(ui->lineEdit->text().startsWith("0b")) {
-    ui->lBitAsHex->setText(QString("0b")+QString::number((unsigned long long)qPow(2,ui->spinBox->value()),2));
-  } else if(ui->lineEdit->text().startsWith("0x")) {
-    ui->lBitAsHex->setText(QString("0x")+QString::number((unsigned long long)qPow(2,ui->spinBox->value()),16));
-  } else {
-    ui->lBitAsHex->setText(QString::number((unsigned long long)qPow(2,ui->spinBox->value())));
-  }
-
-  on_lineEdit_editingFinished();
+    if (const auto v = registerer::parse(ui->lineEdit->text().toStdString()))
+        ui->lineEdit->setText(
+                toQt(registerer::format({ .number = v->number, .base = next(v->base) })));
+    refresh();
 }
