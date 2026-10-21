@@ -1,9 +1,13 @@
 Registerer
 =======
 
-**Registerer (c) 2013 Mike Bergmann**
+**Registerer (c) 2013-2026 Mike Bergmann**
 
 <https://blog.mdb977.de/easily-counting-bits-for-registers/>
+
+[![CI Linux](https://github.com/MikeBergmann/Registerer/actions/workflows/ci-linux.yml/badge.svg)](https://github.com/MikeBergmann/Registerer/actions/workflows/ci-linux.yml)
+[![CI (Windows)](https://github.com/MikeBergmann/Registerer/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/MikeBergmann/Registerer/actions/workflows/ci-windows.yml)
+[![CI (macOS)](https://github.com/MikeBergmann/Registerer/actions/workflows/ci-macos.yml/badge.svg)](https://github.com/MikeBergmann/Registerer/actions/workflows/ci-macos.yml)
 
 Registerer is a Hex/Bin/Dec converter aimed at embedded developers who have to deal with hardware 
 registers a lot. It's developed using the Qt Framework.
