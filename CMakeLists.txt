@@ -1,23 +1,34 @@
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.16)
 
-project(Registerer)
+project(Registerer LANGUAGES CXX)
 
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# Instruct CMake to run moc and uic automatically when needed.
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Find the QtWidgets library
-find_package(Qt5 COMPONENTS Widgets)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Widgets)
 
-# Tell CMake to create the helloworld executable
-add_executable(Registerer WIN32 mainwindow.ui mainwindow.cpp main.cpp)
+# Turns on AUTOMOC/AUTOUIC/AUTORCC and the usual output layout.
+qt_standard_project_setup()
 
-# Use the Widgets module from Qt 5.
-target_link_libraries(Registerer Qt5::Widgets)
+qt_add_executable(Registerer WIN32
+  main.cpp
+  mainwindow.cpp
+  mainwindow.h
+  mainwindow.ui
+  bitformat.h
+)
+
+target_link_libraries(Registerer PRIVATE Qt6::Widgets)
 
 install(
   TARGETS Registerer
   RUNTIME DESTINATION bin
 )
+
+# Tests for the Qt-free display logic; needs no Qt and no display.
+enable_testing()
+find_package(GTest REQUIRED)
+add_executable(bitformat_test bitformat_test.cpp)
+target_link_libraries(bitformat_test PRIVATE GTest::gtest_main)
+include(GoogleTest)
+gtest_discover_tests(bitformat_test)

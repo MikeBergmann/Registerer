@@ -1,0 +1,35 @@
+name: CI (macOS)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    # macos-14 is Apple Silicon; the clang_64 Qt kit is a universal build, so it works there.
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # full history + tags, for the version from git describe
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: 6.8.3
+          host: mac
+          arch: clang_64
+          cache: true
+
+      - name: Install build tools
+        run: brew install ninja googletest
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

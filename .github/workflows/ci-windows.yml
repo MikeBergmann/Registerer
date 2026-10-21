@@ -1,0 +1,47 @@
+name: CI (Windows)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # full history + tags, for the version from git describe
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: 6.8.3
+          host: windows
+          arch: win64_mingw
+          tools: tools_mingw1310
+          cache: true
+
+      # The runner's own gcc would not match the ABI of Qt's MinGW kit, so put the kit's first.
+      - name: Use Qt's MinGW toolchain
+        shell: bash
+        run: echo "$(cygpath -u "$QT_ROOT_DIR/../../Tools/mingw1310_64/bin")" >> "$GITHUB_PATH"
+
+      # No packaged GTest for Qt's MinGW kit, so build one with it.
+      - name: Install GTest
+        shell: bash
+        run: |
+          git clone --depth 1 --branch v1.15.2 https://github.com/google/googletest.git "$RUNNER_TEMP/googletest"
+          cmake -S "$RUNNER_TEMP/googletest" -B "$RUNNER_TEMP/googletest/build" -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/gtest"
+          cmake --build "$RUNNER_TEMP/googletest/build"
+          cmake --install "$RUNNER_TEMP/googletest/build"
+          echo "GTest_ROOT=$RUNNER_TEMP/gtest" >> "$GITHUB_ENV"
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
